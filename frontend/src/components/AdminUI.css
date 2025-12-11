@@ -1,0 +1,44 @@
+/* src/components/AdminUI.css */
+
+.admin-layout {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+.admin-sidebar {
+  width: 220px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  height: calc(100vh - 40px);
+  position: sticky;
+  top: 10px;
+}
+
+.admin-sidebar h3 { margin-top: 0; }
+.admin-sidebar nav { display: flex; flex-direction: column; gap: 8px; margin-top: 12px;}
+.admin-sidebar a { color: #007bff; text-decoration: none; font-weight: 600; }
+
+.admin-main {
+  flex: 1;
+}
+
+.admin-card {
+  margin-bottom: 20px;
+  background: #fff;
+  padding: 18px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.03);
+}
+
+/* forms & lists */
+.admin-form { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+.admin-form input, .admin-form select { padding: 10px; border-radius:6px; border:1px solid #ddd; flex: 1 1 200px; }
+.admin-form button { padding: 10px 14px; border-radius:6px; background:#007bff; color:#fff; border:none; cursor:pointer; }
+
+.list { display:flex; flex-direction:column; gap:8px; }
+.list-item { display:flex; justify-content:space-between; align-items:center; padding:10px; border-radius:8px; background:#f8f9fb; border-left:4px solid #e9eefb; }
+.list-item .muted { color:#6b7280; font-size:12px; margin-top:4px; }
+.btn-danger { padding:8px 10px; border-radius:6px; background:#ff4d4f; color:#fff; border:none; cursor:pointer; }
