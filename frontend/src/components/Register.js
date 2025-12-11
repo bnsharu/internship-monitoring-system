@@ -6,6 +6,7 @@ import "./Auth.css";
 
 export default function Register() {
   const navigate = useNavigate();
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -16,8 +17,6 @@ export default function Register() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const API_BASE = process.env.REACT_APP_API_BASE_URL;
-
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -27,11 +26,11 @@ export default function Register() {
     setError("");
 
     try {
-      const res = await axios.post(
-        `${API_BASE}/api/auth/register`,
-        form,
-        { headers: { "Content-Type": "application/json" } }
-      );
+      const api = axios.create({
+        baseURL: process.env.REACT_APP_API_BASE_URL, // Backend API base URL
+      });
+
+      const res = await api.post("/auth/register", form);
 
       const { user, token } = res.data;
 
@@ -43,8 +42,7 @@ export default function Register() {
       else navigate("/dashboard");
 
     } catch (err) {
-      console.log(err);
-      setError(err.response?.data?.message || "Registration failed");
+      setError(err.response?.data?.message || "Server error");
     }
 
     setLoading(false);

@@ -6,11 +6,14 @@ import "./Auth.css";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ email: "", password: "" });
+
+  const [form, setForm] = useState({
+    email: "",
+    password: ""
+  });
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const API_BASE = process.env.REACT_APP_API_BASE_URL;
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -21,11 +24,11 @@ export default function Login() {
     setError("");
 
     try {
-      const res = await axios.post(
-        `${API_BASE}/api/auth/login`,
-        form,
-        { headers: { "Content-Type": "application/json" } }
-      );
+      const api = axios.create({
+        baseURL: process.env.REACT_APP_API_BASE_URL,
+      });
+
+      const res = await api.post("/auth/login", form);
 
       const { user, token } = res.data;
 
@@ -37,7 +40,6 @@ export default function Login() {
       else navigate("/dashboard");
 
     } catch (err) {
-      console.log(err);
       setError(err.response?.data?.message || "Invalid credentials");
     }
 
