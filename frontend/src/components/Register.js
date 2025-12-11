@@ -10,11 +10,13 @@ export default function Register() {
     name: "",
     email: "",
     password: "",
-    role: "student", 
+    role: "student",
   });
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const API_BASE = process.env.REACT_APP_API_BASE_URL;
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -25,9 +27,12 @@ export default function Register() {
     setError("");
 
     try {
-      const api = axios.create();
+      const res = await axios.post(
+        `${API_BASE}/api/auth/register`,
+        form,
+        { headers: { "Content-Type": "application/json" } }
+      );
 
-      
       const { user, token } = res.data;
 
       localStorage.setItem("user", JSON.stringify(user));
@@ -38,6 +43,7 @@ export default function Register() {
       else navigate("/dashboard");
 
     } catch (err) {
+      console.log(err);
       setError(err.response?.data?.message || "Registration failed");
     }
 
@@ -89,7 +95,6 @@ export default function Register() {
             />
           </div>
 
-          {/* ROLE DROPDOWN */}
           <div className="auth-field">
             <label>Select Role</label>
             <select

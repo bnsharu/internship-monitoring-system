@@ -10,6 +10,8 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const API_BASE = process.env.REACT_APP_API_BASE_URL;
+
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -19,8 +21,11 @@ export default function Login() {
     setError("");
 
     try {
-      // ✅ UPDATED — removed localhost
-      const res = await axios.post("/api/auth/login", form);
+      const res = await axios.post(
+        `${API_BASE}/api/auth/login`,
+        form,
+        { headers: { "Content-Type": "application/json" } }
+      );
 
       const { user, token } = res.data;
 
@@ -30,7 +35,9 @@ export default function Login() {
       if (user.role === "admin") navigate("/admin");
       else if (user.role === "mentor") navigate("/mentor");
       else navigate("/dashboard");
+
     } catch (err) {
+      console.log(err);
       setError(err.response?.data?.message || "Invalid credentials");
     }
 
